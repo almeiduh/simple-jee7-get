@@ -17,6 +17,19 @@ pipeline {
                 }
             }
         }
+
+        stage ('Code analysis') {
+            parallel {
+                stage ('SonarQube code analysis') {
+                    steps {
+                        sh 'mvn sonar:sonar \
+                            -Dsonar.host.url=http://sonarqube-testp.192.168.99.100.nip.io \
+                            -Dsonar.login=b2c49d6ef4978a6f9bd46b030ca9000379b1f682'
+                    }
+                }
+            }
+        }
+
     }
 
     post {
