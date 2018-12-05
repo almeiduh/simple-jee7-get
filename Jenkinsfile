@@ -8,6 +8,15 @@ pipeline {
     }
 
     stages {
+        stage ('Build') {
+            parallel {
+                stage ('Build WAR file') {
+                    steps {
+                        sh 'mvn -Dmaven.test.failure.ignore=true clean compile' 
+                    }
+                }
+            }
+        }
         stage("SonarQube analysis") {
             steps {
                     sh '''
@@ -21,15 +30,6 @@ pipeline {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-        stage ('Package') {
-            parallel {
-                stage ('Build WAR file') {
-                    steps {
-                        sh 'mvn -Dmaven.test.failure.ignore=true clean install' 
-                    }
                 }
             }
         }
