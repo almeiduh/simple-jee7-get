@@ -8,11 +8,6 @@ pipeline {
     }
 
     stages {
-
-/*
-        stage ('Test') {
-        }
-*/
         stage ('Code analysis') {
             stages {
                 stage ('SonarQube - Code analysis') {
