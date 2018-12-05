@@ -21,7 +21,7 @@ public class Resource {
     @GET
     @Path("hi")
     public String hi() {
-       return "hi!";
+       return "hello darkness my old friend...";
     }
 
 }
