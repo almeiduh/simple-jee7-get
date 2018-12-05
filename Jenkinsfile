@@ -26,9 +26,7 @@ pipeline {
                 }
             }
         }
-    }
-
-    stage ('Package') {
+        stage ('Package') {
             stages {
                 stage ('Build WAR file') {
                     steps {
@@ -37,6 +35,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         always {
