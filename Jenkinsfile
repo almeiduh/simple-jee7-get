@@ -8,16 +8,20 @@ pipeline {
     }
 
     stages {
-        stage ('Code analysis') {
-            parallel {
-                stage ('SonarQube - Code analysis') {
+        stage ('Quality') {
+            stages {
+                stage("SonarQube analysis") {
                     steps {
-                        sh 'mvn sonar:sonar \
-                            -Dsonar.host.url=http://sonarqube-testp.192.168.99.100.nip.io \
-                            -Dsonar.login=b2c49d6ef4978a6f9bd46b030ca9000379b1f682'
+                        withSonarQubeEnv('SonarQube Server') {
+                            sh '''
+                                mvn sonar:sonar \
+                                    -Dsonar.host.url=http://sonarqube-testp.192.168.99.100.nip.io \
+                                    -Dsonar.login=b2c49d6ef4978a6f9bd46b030ca9000379b1f682
+                            '''
+                        }
                     }
                 }
-                stage("SonarQube - Quality Gate") {
+                stage("Quality Gate") {
                     steps {
                         timeout(time: 1, unit: 'HOURS') {
                             waitForQualityGate abortPipeline: true
