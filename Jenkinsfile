@@ -9,7 +9,7 @@ pipeline {
 
     stages {
         stage ('Code analysis') {
-            stages {
+            parallel {
                 stage ('SonarQube - Code analysis') {
                     steps {
                         sh 'mvn sonar:sonar \
@@ -27,7 +27,7 @@ pipeline {
             }
         }
         stage ('Package') {
-            stages {
+            parallel {
                 stage ('Build WAR file') {
                     steps {
                         sh 'mvn -Dmaven.test.failure.ignore=true clean install' 
