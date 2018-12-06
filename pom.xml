@@ -26,8 +26,8 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://nexus-testp.192.168.99.100.nip.io/content/repositories/snapshots</url>
+            <id>maven-snapshots</id>
+            <url>http://nexus-testp.192.168.99.100.nip.io/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -107,8 +107,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <serverId>snapshots</serverId>
-                    <nexusUrl>http://nexus-testp.192.168.99.100.nip.io/</nexusUrl>
+                    <serverId>nexus</serverId>
+                    <nexusUrl>http://nexus-testp.192.168.99.100.nip.io</nexusUrl>
                     <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
