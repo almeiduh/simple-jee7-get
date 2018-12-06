@@ -13,12 +13,13 @@ pipeline {
     }
 
     stages {
-        stage ('Code build') {
-            parallel {
-                stage ('Build WAR file') {
-                    steps {
-                        sh 'mvn -Dmaven.test.failure.ignore=true clean compile' 
-                    }
+        stage ('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/TEST-*.xml'
                 }
             }
         }
@@ -44,6 +45,47 @@ pipeline {
                 }
             }
         }
+         stage ('Package') {
+            stages {
+                stage ('Build WAR file') {
+                    steps {
+                        configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+                            sh '''
+                                mvn \
+                                    -s $MAVEN_SETTINGS \
+                                    -Dmaven.test.skip=true \
+                                    -Dcheckstyle.skip \
+                                    -Drepository.nexus=${NEXUS_SERVER} \
+                                    deploy
+                            '''
+                        }
+                    }
+                }
+
+                stage ('Build Image') {
+                    steps {
+
+                        withCredentials([usernamePassword(credentialsId: 'nexus',
+                            usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
+                            sh '''
+                                docker build \
+                                    --force-rm\
+                                    --compress\
+                                    -f $DOCKERFILE\
+                                    -t ${IMAGE_NAME}:latest\
+                                    . \
+                                && echo ${NEXUS_PASSWORD} \
+                                    | docker login -u ${NEXUS_USERNAME} --password-stdin ${DOCKER_REGISTRY} \
+                                && docker tag ${IMAGE_NAME}:latest ${DOCKER_REGISTRY}/${TARGET_IMAGE}:latest \
+                                && docker push ${DOCKER_REGISTRY}/${TARGET_IMAGE}:latest
+                            '''
+
+                        }
+                    }
+                }
+            }
+        }
+    }
     }
 
     post {
