@@ -3,8 +3,8 @@ pipeline {
     agent any
 
     environment {
-        SONAR_HOST              = 'http://sonarqube-testp.192.168.99.100.nip.io'
-        SONAR_LOGIN             = '8d30ad7095aa9e5026058726585a7b2680313c3f'
+        SONAR_HOST              = 'http://sonarqube:9000'
+        SONAR_LOGIN             = '9d9603ea54bb22b7e3b7e47a78c2d7654d734aec'
     }
 
     tools {
@@ -37,7 +37,7 @@ pipeline {
                 }
                 stage("SonarQube - Quality Gate") {
                     steps {
-                        timeout(time: 1, unit: 'HOURS') {
+                        timeout(time: 1, unit: 'MINUTES') {
                             waitForQualityGate abortPipeline: true
                         }
                     }
