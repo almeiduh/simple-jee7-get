@@ -10,6 +10,7 @@
     <properties>
         <java.min.version>1.7</java.min.version>
         <maven.min.version>3.0.0</maven.min.version>
+        <nexus.url>http://nexus-testp.192.168.99.100.nip.io</nexus.url>
     </properties>
 
     <name>Java EE 7 Sample: jaxrs - simple-get</name>
@@ -27,7 +28,7 @@
     <distributionManagement>
         <snapshotRepository>
             <id>maven-snapshots</id>
-            <url>http://nexus-testp.192.168.99.100.nip.io/repository/maven-snapshots/</url>
+            <url>${nexus.url}/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -108,7 +109,7 @@
                 </executions>
                 <configuration>
                     <serverId>nexus</serverId>
-                    <nexusUrl>http://nexus-testp.192.168.99.100.nip.io</nexusUrl>
+                    <nexusUrl>${nexus.url}</nexusUrl>
                     <skipStaging>true</skipStaging>
                 </configuration>
             </plugin>
