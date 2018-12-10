@@ -3,8 +3,8 @@ pipeline {
     agent any
 
     environment {
-        SONAR_HOST              = 'http://sonarqube:9000'
-        SONAR_LOGIN             = '9d9603ea54bb22b7e3b7e47a78c2d7654d734aec'
+        SONAR_HOST              = 'http://localhost:9000'
+        SONAR_LOGIN             = 'ca566a6e0dff3d7eaaffa93253c0dbd0691a5143'
     }
 
     tools {
