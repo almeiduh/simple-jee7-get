@@ -3,9 +3,9 @@ pipeline {
     agent any
 
     parameters {
-        string( name: 'BuildConfiguration', 
-                defaultValue: 'Release', 
-                description: 'Configuration to build (Debug/Release/...)')
+        string( name: 'nexus_url', 
+                defaultValue: 'http://nexus3:8081', 
+                description: 'URL of the Nexus server')
     }
 
     tools {
@@ -54,7 +54,7 @@ pipeline {
                                     -s $MAVEN_SETTINGS \
                                     -Dmaven.test.skip=true \
                                     -Dcheckstyle.skip \
-                                    -Drepository.nexus=${NEXUS_SERVER} \
+                                    -Drepository.nexus=${env.nexus_url} \
                                     deploy
                             '''
                         }
