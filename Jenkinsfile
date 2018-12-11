@@ -8,6 +8,11 @@ pipeline {
                 description: 'URL of the Nexus server')
     }
 
+    environment {
+        IMAGE_NAME = 'simple-get-jee7'
+        DOCKER_REGISTRY = 'http://${params.NEXUS_URL}/repository/epic-docker-repo/'
+    }
+
     tools {
         maven 'maven-3.6.0'
         jdk 'jdk8'
@@ -50,10 +55,10 @@ pipeline {
                     steps {
                         configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
                             sh "mvn \
-                                -s ${MAVEN_SETTINGS} \
+                                -s $MAVEN_SETTINGS \
                                 -Dmaven.test.skip=true \
                                 -Dcheckstyle.skip \
-                                -Dnexus.url=${params.NEXUS_URL} \
+                                -Drepository.nexus=${params.NEXUS_URL} \
                                 deploy"
                         }
                     }
@@ -61,8 +66,7 @@ pipeline {
 
                 stage ('Build Image') {
                     steps {
-
-                        withCredentials([usernamePassword(credentialsId: 'nexus',
+                        withCredentials([usernamePassword(credentialsId: 'nexus-credentials',
                             usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
                             sh '''
                                 docker build \
@@ -71,10 +75,9 @@ pipeline {
                                     -f $DOCKERFILE\
                                     -t ${IMAGE_NAME}:latest\
                                     . \
-                                && echo ${NEXUS_PASSWORD} \
-                                    | docker login -u ${NEXUS_USERNAME} --password-stdin ${DOCKER_REGISTRY} \
-                                && docker tag ${IMAGE_NAME}:latest ${DOCKER_REGISTRY}/${TARGET_IMAGE}:latest \
-                                && docker push ${DOCKER_REGISTRY}/${TARGET_IMAGE}:latest
+                                && docker login -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD} ${DOCKER_REGISTRY} \
+                                && docker tag ${IMAGE_NAME}:latest ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest \
+                                && docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
                             '''
 
                         }
