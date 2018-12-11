@@ -54,7 +54,7 @@ pipeline {
                                     -s $MAVEN_SETTINGS \
                                     -Dmaven.test.skip=true \
                                     -Dcheckstyle.skip \
-                                    -Drepository.nexus=${env.nexus_url} \
+                                    -Drepository.nexus=${params.nexus_url} \
                                     deploy
                             '''
                         }
