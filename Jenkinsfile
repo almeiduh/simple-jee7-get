@@ -49,14 +49,12 @@ pipeline {
                 stage ('Build WAR file') {
                     steps {
                         configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-                            sh '''
-                                mvn \
+                            sh 'mvn \
                                     -s $MAVEN_SETTINGS \
                                     -Dmaven.test.skip=true \
                                     -Dcheckstyle.skip \
                                     -Drepository.nexus=${params.nexus_url} \
-                                    deploy
-                            '''
+                                    deploy'
                         }
                     }
                 }
