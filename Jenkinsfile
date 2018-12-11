@@ -24,7 +24,7 @@ pipeline {
                     steps {
                         withSonarQubeEnv('SonarQube Server') {
                             sh  '''
-                                $SONAR_MAVEN_GOAL -Dsonar.host.url=$SONAR_HOST_URL
+                                mvn $SONAR_MAVEN_GOAL -Dsonar.host.url=$SONAR_HOST_URL
                                 '''
                         }
                     }
