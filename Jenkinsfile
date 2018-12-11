@@ -2,11 +2,6 @@ pipeline {
 
     agent any
 
-    environment {
-        SONAR_HOST              = 'http://localhost:9000'
-        SONAR_LOGIN             = 'ca566a6e0dff3d7eaaffa93253c0dbd0691a5143'
-    }
-
     tools {
         maven 'maven-3.6.0'
         jdk 'jdk8'
@@ -29,9 +24,7 @@ pipeline {
                     steps {
                         withSonarQubeEnv('SonarQube Server') {
                             sh  '''
-                                mvn sonar:sonar \
-                                -Dsonar.host.url=${SONAR_HOST} \
-                                -Dsonar.login=${SONAR_LOGIN}
+                                $SONAR_MAVEN_GOAL -Dsonar.host.url=$SONAR_HOST_URL
                                 '''
                         }
                     }
