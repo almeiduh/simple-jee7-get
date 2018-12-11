@@ -2,6 +2,12 @@ pipeline {
 
     agent any
 
+    parameters {
+        string( name: 'BuildConfiguration', 
+                defaultValue: 'Release', 
+                description: 'Configuration to build (Debug/Release/...)')
+    }
+
     tools {
         maven 'maven-3.6.0'
         jdk 'jdk8'
