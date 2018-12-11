@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     parameters {
-        string( name: 'nexus_url', 
+        string( name: 'NEXUS_URL', 
                 defaultValue: 'http://nexus3:8081', 
                 description: 'URL of the Nexus server')
     }
@@ -54,7 +54,7 @@ pipeline {
                                 -s $MAVEN_SETTINGS \
                                 -Dmaven.test.skip=true \
                                 -Dcheckstyle.skip \
-                                -Drepository.nexus=$params.nexus_url \
+                                -Drepository.nexus=${params.NEXUS_URL} \
                                 deploy
                                 '''
                         }
