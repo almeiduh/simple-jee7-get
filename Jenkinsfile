@@ -72,13 +72,21 @@ pipeline {
                     steps {
                         withRegistry('${DOCKER_REGISTRY_URL}', 'nexus-credentials') {
                             //def customImage = 
-                            docker.build("IMAGE_NAME:latest")
+                            docker.build("${IMAGE_NAME}:latest")
                             //customImage.push()
                         }
                     }
                 }
             }
         }
+
+        node {
+            docker.withRegistry('${DOCKER_REGISTRY_URL}', 'credentials-id') {
+                def customImage =  docker.build("${IMAGE_NAME}:latest")
+                /* Push the container to the custom Registry */
+                customImage.push()
+        }
+}
     }
     post {
         always {
