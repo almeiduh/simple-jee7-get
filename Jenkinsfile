@@ -68,29 +68,19 @@ pipeline {
 
         stage ('Docker Build') {
             stages {
-                stage ('Build Docker Image and push to repository') {
-                    steps {
-                        withRegistry('${DOCKER_REGISTRY_URL}', 'nexus-credentials') {
-                            //def customImage = 
-                            docker.build("${IMAGE_NAME}:latest")
-                            //customImage.push()
+                stage('Building image') {
+                    steps{
+                        script {
+                            def dockerImage =  docker.build("${IMAGE_NAME}:latest")
                         }
                     }
                 }
             }
         }
 
-        node {
-            docker.withRegistry('${DOCKER_REGISTRY_URL}', 'credentials-id') {
-                def customImage =  docker.build("${IMAGE_NAME}:latest")
-                /* Push the container to the custom Registry */
-                customImage.push()
+        post {
+            always {
+                deleteDir()
+            }
         }
-}
-    }
-    post {
-        always {
-            deleteDir()
-        }
-    }
 }
