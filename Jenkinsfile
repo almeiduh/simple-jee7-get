@@ -90,8 +90,10 @@ pipeline {
                 stage ('Build Docker Image and push to repository') {
                     steps {
                         withRegistry('${DOCKER_REGISTRY_URL}', 'nexus-credentials') {
-                            def customImage = docker.build("IMAGE_NAME:latest")
-                            customImage.push()
+                            step {
+                                def customImage = docker.build("IMAGE_NAME:latest")
+                                customImage.push()
+                            }
                         }
                     }
                 }
