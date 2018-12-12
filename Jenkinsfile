@@ -66,25 +66,6 @@ pipeline {
             }
         }
 
-               // stage ('Build Image') {
-               //     steps {
-               //         withCredentials([usernamePassword(credentialsId: 'nexus-credentials',
-               //             usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-               //             sh '''
-               //                 docker build \
-               //                     --force-rm\
-               //                     --compress\
-               //                     -f $DOCKERFILE\
-               //                     -t ${IMAGE_NAME}:latest\
-               //                     . \
-               //                 && docker login -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD} ${DOCKER_REGISTRY} \
-               //                 && docker tag ${IMAGE_NAME}:latest ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest \
-               //                 && docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
-               //             '''
-               //         }
-               //     }
-               // }
-               
         stage ('Docker Build') {
             stages {
                 stage ('Build Docker Image and push to repository') {
