@@ -1,25 +1,28 @@
 version: '3'
 
 services:
+# Jenkins - On a container with docker installer (does't work on docker for windows)
   jenkins:
-    image: jenkins/jenkins:lts
+    build: ./jenkins-image
     container_name: "jenkins"
     ports:
     - "8080:8080"
     volumes:
     - jenkins_home:/var/jenkins_home
+    - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - cicd-network
 
- # SonarQube - without DB
- #sonarqube:
- #  image: sonarqube:lts
- #  container_name: "sonarqube"
- #  ports:
- #    - "9000:9000"
- #  networks:
- #    - cicd-network
+# SonarQube - without DB
+#sonarqube:
+#  image: sonarqube:lts
+#  container_name: "sonarqube"
+#  ports:
+#    - "9000:9000"
+#  networks:
+#    - cicd-network
 
+# SonarQube - with DB
   sonarqube:
     image: sonarqube:lts
     container_name: "sonarqube"
@@ -34,6 +37,7 @@ services:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
 
+# SonarQube - Postgres DB
   sonarqube-db:
     image: postgres
     container_name: "sonarqube-db"
@@ -46,6 +50,7 @@ services:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
 
+# Nexus 3 Repository
   nexus3:
     image: sonatype/nexus3:3.14.0
     container_name: "nexus3"

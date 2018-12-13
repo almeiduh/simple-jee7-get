@@ -1,0 +1,2 @@
+config-file-provider:3.4.1
+sonar:2.8.1
