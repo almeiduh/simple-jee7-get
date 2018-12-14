@@ -68,7 +68,6 @@ pipeline {
         }
 
         stage ('Docker Build') {
-            def dockerImage = null;
             stages {
                 stage('Build image') {
                     steps{
