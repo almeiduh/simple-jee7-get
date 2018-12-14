@@ -78,7 +78,7 @@ pipeline {
                 stage('Pushing image') {
                     steps{
                         script {
-                            docker.withRegistry('${params.NEXUS_URL}', 'nexus-credentials') {
+                            docker.withRegistry("${params.NEXUS_URL}", 'nexus-credentials') {
                                 dockerImage.push()
                             }
                         }
