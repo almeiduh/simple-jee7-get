@@ -68,8 +68,9 @@ pipeline {
         }
 
         stage ('Docker Build') {
+            def dockerImage = null
             stages {
-                stage('Building image') {
+                stage('Build image') {
                     steps{
                         script {
                             def dockerImage =  docker.build("${IMAGE_NAME}:latest")
@@ -80,7 +81,9 @@ pipeline {
                     steps{
                         script {
                             docker.withRegistry("${DOCKER_REGISTRY_URL}", 'nexus-credentials') {
-                                dockerImage.push()
+                                if(dockerImage != null) {}
+                                    dockerImage.push()
+                                }
                             }
                         }
                     }
