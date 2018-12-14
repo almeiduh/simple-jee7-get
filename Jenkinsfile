@@ -72,7 +72,7 @@ pipeline {
                 stage('Build image') {
                     steps{
                         script {
-                            dockerImage =  docker.build("${IMAGE_NAME}:latest")
+                            def dockerImage =  docker.build("${IMAGE_NAME}:latest")
                             docker.withRegistry("${DOCKER_REGISTRY_URL}", 'nexus-credentials') {
                                 if(dockerImage != null) {
                                     dockerImage.push()
