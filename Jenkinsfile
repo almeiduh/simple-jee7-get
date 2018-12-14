@@ -10,7 +10,8 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'simple-get-jee7'
-        DOCKER_REGISTRY_URL = 'http://${params.NEXUS_URL}/repository/epic-docker-repo/'
+        DOCKER_REGISTRY_URL = 'http://172.18.0.3:9999'
+        //DOCKER_REGISTRY_URL = 'http://${params.NEXUS_URL}/repository/epic-docker-repo/'
     }
 
     tools {
