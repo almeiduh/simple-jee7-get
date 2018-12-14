@@ -74,10 +74,11 @@ pipeline {
                             def dockerImage =  docker.build("${IMAGE_NAME}:latest")
                         }
                     }
-                }stage('Building image') {
+                }
+                stage('Pushing image') {
                     steps{
                         script {
-                            docker.withRegistry('${NEXUS_URL}', 'nexus-credentials') {}
+                            docker.withRegistry('${NEXUS_URL}', 'nexus-credentials') {
                                 dockerImage.push()
                             }
                         }
