@@ -73,7 +73,7 @@ pipeline {
                 stage('Build image') {
                     steps{
                         script {
-                            def dockerImage =  docker.build("${IMAGE_NAME}:latest")
+                            dockerImage =  docker.build("${IMAGE_NAME}:latest")
                         }
                     }
                 }
