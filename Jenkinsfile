@@ -81,7 +81,7 @@ pipeline {
                     steps{
                         script {
                             docker.withRegistry("${DOCKER_REGISTRY_URL}", 'nexus-credentials') {
-                                if(dockerImage != null) {}
+                                if(dockerImage != null) {
                                     dockerImage.push()
                                 }
                             }
