@@ -74,12 +74,6 @@ pipeline {
                     steps{
                         script {
                             dockerImage =  docker.build("${IMAGE_NAME}:latest")
-                        }
-                    }
-                }
-                stage('Pushing image') {
-                    steps{
-                        script {
                             docker.withRegistry("${DOCKER_REGISTRY_URL}", 'nexus-credentials') {
                                 if(dockerImage != null) {
                                     dockerImage.push()
